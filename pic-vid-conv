@@ -18,15 +18,16 @@ done
 
 # for file in *.png; do convert "$file" -sample 400x400 "renamed/$file"; echo $file; done
 # for file in *.png; do mv "$file" "renamed/$file"; echo $file; done
-outnums=$(egrep -io '[0-9]' "${2}"
-echo outNums
-outRes=$((1080/${2}*${2}))
+outnums=$(echo ${2} | egrep -io '[0-9]*')
+# echo ${2} | egrep -o '[0123456789]*'
+echo $outnums
+outRes=$((1080/$outnums*$outnums))
 echo $outRes
 cd renamed
-ffmpeg -framerate ${1} -i %0d.png -c:v libx264 -profile:v high -crf 1 -pix_fmt yuv420p output.mp4
+ffmpeg -framerate ${1} -i %0d.png -c:v libx264 -profile:v high -crf 1 -pix_fmt yuv420p output.mp4>/dev/null
 cd .. 
 rm out.mp4 2>/dev/null
-ffmpeg -i renamed/output.mp4 -crf 1 -vf scale=$outRes:$outRes -sws_flags neighbor out.mp4
-mv out.mp4 "${2}out.mp4"
+ffmpeg -i renamed/output.mp4 -crf 1 -vf scale=$outRes:$outRes -sws_flags neighbor out.mp4 >/dev/null
+mv out.mp4 "${2}.mp4"
 #mv renamed/output.mp4 "${2}out.mp4" 
 rm -rf *.png 2>/dev/null
