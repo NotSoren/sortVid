@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# /home/soren/pyLang/pypy3.6-v7.1.0-linux64/bin/pypy3 quickSort.py ${2} 
+
+if [ -d renamed ]
+then
+    rm -rf renamed
+    mkdir renamed
+else
+    mkdir renamed
+fi
+
+ls -vp | egrep -v '/$' | egrep -i '(png|jpe?g)$' | cat -n | while read n f; do 
+#     convert "$f" -sample 1000x1000 "renamed/$f"
+    echo $n
+    mv "$f" "renamed/$n.png"
+done
+
+# for file in *.png; do convert "$file" -sample 400x400 "renamed/$file"; echo $file; done
+# for file in *.png; do mv "$file" "renamed/$file"; echo $file; done
+outRes=$((1080/${2}*${2}))
+echo $outRes
+cd renamed
+ffmpeg -framerate ${1} -i %0d.png -c:v libx264 -profile:v high -crf 1 -pix_fmt yuv420p output.mp4
+cd .. 
+rm out.mp4 2>/dev/null
+ffmpeg -i renamed/output.mp4 -crf 1 -vf scale=$outRes:$outRes -sws_flags neighbor out.mp4
+mv out.mp4 "${2}out.mp4"
+#mv renamed/output.mp4 "${2}out.mp4" 
+rm -rf *.png 2>/dev/null
