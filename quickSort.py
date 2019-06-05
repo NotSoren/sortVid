@@ -46,38 +46,6 @@ def stepToPix(step):
         o = [int(round(l*step/10)) for l in (0, 255, 255)]
     return(o)
 
-#def partition(arr,low,high): 
-    #global imageNum
-    #i = (low - 1)
-    #pivot = arr[high]
-  
-    #for j in range(low , high): 
-        #arr[i+1],arr[high] = arr[high],arr[i+1] 
-        
-        #if   arr[j] <= pivot: 
-            #i = i + 1 
-            #arr[i],arr[j] = arr[j],arr[i]
-            
-            #createImage(arr, imageNum, dim, dim)
-            ##print(imageNum, arr)
-            #imageNum += 1
-  
-    #return(i + 1) 
-
-## Function to do Quick sort 
-#def QS(array,low,high): 
-    #if low <= high: 
-        #pi = partition(array,low,high)   
-        #QS(array, low, pi-1) 
-        #QS(array, pi+1, high)
-        #print(array)
-
-#def quickSort(list_in):
-    #QS(list_in, 0, len(list_in)-1)
-    #global imageNum
-    #createImage(list_in, imageNum, dim, dim)
-    #print(imageNum)
-    #imageNum += 1
 def quickSort(alist):
    quickSortHelper(alist,0,len(alist)-1)
 
@@ -88,7 +56,6 @@ def quickSortHelper(alist,first,last):
 
        quickSortHelper(alist,first,splitpoint-1)
        quickSortHelper(alist,splitpoint+1,last)
-
 
 def partition(alist,first,last):
    pivotvalue = alist[first]
